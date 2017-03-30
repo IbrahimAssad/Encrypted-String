@@ -11,8 +11,6 @@
       "IbrahimAssad\\Encrypted-String\\": "src/"
     }
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "authors": [
     {
       "name": "Ibrahim Assad",
