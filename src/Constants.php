@@ -1,6 +1,6 @@
 <?php
 
-namespace Iassad\Encrypt;
+namespace Iassad\Encrypted;
 
 /**
  * Class Constants
