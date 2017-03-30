@@ -1,0 +1,22 @@
+{
+  "name": "IbrahimAssad/Encrypted-String",
+  "description": "Encryption and validating data  ",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1.0",
+    "phpunit/phpunit": "6.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "IbrahimAssad\\Encrypted-String\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "Ibrahim Assad",
+      "email": "Ibrahim.assad@tajawal.com"
+    }
+  ]
+}
