@@ -14,10 +14,6 @@ class EncryptTest extends TestCase
     public function testRun()
     {
 
-        echo PHP_EOL;
-        echo PHP_EOL;echo PHP_EOL;echo PHP_EOL;
-        echo PHP_EOL;
-        echo PHP_EOL;echo PHP_EOL;echo PHP_EOL;
         $test = new Encrypt("ibrahim");
         $this->assertTrue($test->doEncrypt("ibrahim"));
         $this->assertTrue($test->doEncrypt("mIbrahid"));
