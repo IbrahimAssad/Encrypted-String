@@ -1,11 +1,11 @@
 <?php
 
-namespace Iassad\Encrypted;
+namespace IbrahimAssad\Encrypted;
 
 /**
  * Class Encrypt
  *
- * @package Iassad\Encrypted
+ * @package IbrahimAssad\Encrypted
  */
 class Encrypt
 {
@@ -53,7 +53,7 @@ class Encrypt
      * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
      *
      */
-    private function getCharArrayAtoz():array
+    private function getCharArrayAtoz(): array
     {
         $upper   = range(chr(Constants::A_LETTER), chr(Constants::Z_LETTER));
         $lower   = range(chr(Constants::a_LETTER), chr(Constants::z_LETTER));
@@ -85,6 +85,9 @@ class Encrypt
         $keySplitArray = str_split($this->key);
         $keyLength     = count($keySplitArray);
 
+        if ($keyLength > $tokenLength) {
+            return false;
+        }
 
         for ($i = 0; $i < count($charArray); $i++) {
             $currentSet[$charArray[$i]] = 0;
@@ -94,6 +97,7 @@ class Encrypt
         for ($i = 0; $i < $tokenLength; $i++) {
             $this->updateIndex($currentSet, $tokenSplitArray[$i], -1);
         }
+
         if ($this->isValid($currentSet) == true) {
             return true;
         }
