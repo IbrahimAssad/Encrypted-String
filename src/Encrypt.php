@@ -35,10 +35,14 @@ class Encrypt
     private function updateIndex(array &$arrayItem, $index, int $value)
     {
         if ($index < 0) return;
-        if ($arrayItem[$index] > 0) {
-            //if($value > 0){
-            $arrayItem[$index] += $value;
-            //}
+        if ($arrayItem[$index] >= 0) {
+            if ($value > 0) {
+                $arrayItem[$index] += $value;
+            } elseif ($value == -1) {
+                if ($arrayItem[$index] > 0) {
+                    $arrayItem[$index] -= $value;
+                }
+            }
 
         }
 
@@ -75,6 +79,7 @@ class Encrypt
      */
     public function doEncrypt(string $token): bool
     {
+        echo $token .'  -   '.$this->key.PHP_EOL;
         $charArray = $this->getCharArrayAtoz();
 
         $currentSet = [];
@@ -93,29 +98,28 @@ class Encrypt
             $currentSet[$charArray[$i]] = 0;
         }
 
-
-        for ($i = 0; $i < $tokenLength; $i++) {
-            $this->updateIndex($currentSet, $tokenSplitArray[$i], -1);
-        }
-
-        if ($this->isValid($currentSet) == true) {
-            return true;
-        }
-
-
         for ($i = 0; $i < $keyLength; $i++) {
             $currentSet[$keySplitArray[$i]] += 1;
         }
 
 
-        for ($index = 0; $index < $tokenLength; $index++) {
-            $this->updateIndex($currentSet, $tokenSplitArray[$index], -1);
-            $this->updateIndex($currentSet, $tokenSplitArray[($index - 1)], 1);
-        }
         if ($this->isValid($currentSet) == true) {
             return true;
         }
 
+
+
+
+        for ($index = 1; $index < $tokenLength; $index++) {
+
+            $this->updateIndex($currentSet, $tokenSplitArray[$index], -1);
+            $this->updateIndex($currentSet, $tokenSplitArray[($index - 1)], 1);
+            print_r($tokenSplitArray);
+            print_r($index);
+            if ($this->isValid($currentSet) == true) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -132,6 +136,7 @@ class Encrypt
      */
     private function isValid($arr)
     {
+        $this->debug($arr);
         foreach ($arr as $ind => $val) {
             if ($val != 0)
                 return false;
@@ -139,4 +144,15 @@ class Encrypt
 
         return true;
     }
+
+    private function debug($arr)
+    {
+        foreach ($arr as $ind => $val) {
+            if ($val != 0)
+                echo $ind . ' => ' . $val . PHP_EOL;
+        }
+        echo "------" . PHP_EOL;
+    }
+
+
 }

@@ -40,27 +40,35 @@ class EncryptTest extends TestCase
     }
 
 
-//    public function testReadFromFile()
-//    {
-//
-//
-//        $data            = file(__DIR__ . "/data/data.in", FILE_IGNORE_NEW_LINES);
-//        $expectedResults = file(__DIR__ . "/data/data.out", FILE_IGNORE_NEW_LINES);
-//
-//        for ($itemIndex = 0; $itemIndex < count($data); $itemIndex++) {
-//            $lineToken = $data[$itemIndex++];
-//            $lineKey  = $data[$itemIndex];
-//            $test     = new Encrypt($lineKey);
-//
-//            $expected = $expectedResults[$itemIndex / 2];
-//
-//            echo $lineKey . " " . $lineToken . " = " . $expected.PHP_EOL;
-//
-//            if ($expected == "YES") {
+    public function testReadFromFile()
+    {
+
+
+        $data            = file(__DIR__ . "/data/data.in", FILE_IGNORE_NEW_LINES);
+        $expectedResults = file(__DIR__ . "/data/data.out", FILE_IGNORE_NEW_LINES);
+
+        for ($itemIndex = 0; $itemIndex < count($data); $itemIndex++) {
+            $lineToken = $data[$itemIndex++];
+            $lineKey  = $data[$itemIndex];
+            $test     = new Encrypt($lineKey);
+
+            $expected = $expectedResults[$itemIndex / 2];
+
+           // echo $lineKey . " " . $lineToken . " = " . $expected.PHP_EOL;
+
+            if ($expected == "YES") {
+                if(!$test->doEncrypt($lineToken)){
+                    echo "MUST YES".PHP_EOL;
+                }
 //                $this->assertTrue($test->doEncrypt($lineToken));
-//            } else {
+            } else {
 //                $this->assertFalse($test->doEncrypt($lineToken));
-//            }
-//        }
-//    }
+                if($test->doEncrypt($lineToken)){
+                    echo "MUST NO".PHP_EOL;
+                    file_put_contents("response.txt",$lineKey . " " . $lineToken . " = " . $expected.PHP_EOL);
+                    exit;
+                }
+            }
+        }
+    }
 }
