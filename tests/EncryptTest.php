@@ -2,16 +2,13 @@
 
 namespace IbrahimAssad\Encrypted\Tests;
 
-require_once __DIR__ . '../../src/Constants.php';
-require_once __DIR__ . '../../src/Encrypt.php';
-
 use IbrahimAssad\Encrypted\Encrypt;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class EncryptTest
  *
- * @package IbrahimAssad\Encrypted\Tests
+ * @package IbrahimAssad\Encrypted\tests
  */
 class EncryptTest extends TestCase
 {
