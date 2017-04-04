@@ -34,13 +34,21 @@ class Encrypt
      */
     private function updateIndex(array &$arrayItem, $index, int $value)
     {
+//        echo $value .PHP_EOL;
+//        if ($index < 0) return;
+//        if ($value > 0) {
+//            $arrayItem[$index] += $value;
+//        } else {
+//            $arrayItem[$index] += $value;
+//        }
+
         if ($index < 0) return;
         if ($arrayItem[$index] >= 0) {
             if ($value > 0) {
                 $arrayItem[$index] += $value;
             } elseif ($value == -1) {
                 if ($arrayItem[$index] > 0) {
-                    $arrayItem[$index] -= $value;
+                    $arrayItem[$index] -= abs($value);
                 }
             }
 
@@ -79,7 +87,7 @@ class Encrypt
      */
     public function doEncrypt(string $token): bool
     {
-        echo $token .'  -   '.$this->key.PHP_EOL;
+//        echo $token . '  -   ' . $this->key . PHP_EOL;
         $charArray = $this->getCharArrayAtoz();
 
         $currentSet = [];
@@ -97,29 +105,54 @@ class Encrypt
         for ($i = 0; $i < count($charArray); $i++) {
             $currentSet[$charArray[$i]] = 0;
         }
+//        echo "start";
+//        $this->print($currentSet);
 
         for ($i = 0; $i < $keyLength; $i++) {
-            $currentSet[$keySplitArray[$i]] += 1;
-        }
+//            echo $keySplitArray[$i].' -- '.$keySplitArray[$i].PHP_EOL;
+            $this->updateIndex($currentSet, $keySplitArray[$i], 1);
+            $this->updateIndex($currentSet, $tokenSplitArray[$i], -1);
+//            $currentSet[$keySplitArray[$i]]   += 1;
+//            $currentSet[$tokenSplitArray[$i]] -= 1;
 
+        }
+//                $this->print($currentSet);
+//
+//        $this->debug($currentSet);
+//        exit;
+//        $this->print($currentSet);
+        //  exit;
 
         if ($this->isValid($currentSet) == true) {
             return true;
         }
 
+//        $this->debug($currentSet);
+//        exit;
 
-
-
-        for ($index = 1; $index < $tokenLength; $index++) {
-
+//        echo $tokenLength;
+        for ($index = $keyLength; $index < $tokenLength; $index++) {
+//            if($index > $keyLength-1) {
+//            echo $tokenSplitArray[$index];
+//            exit;
             $this->updateIndex($currentSet, $tokenSplitArray[$index], -1);
-            $this->updateIndex($currentSet, $tokenSplitArray[($index - 1)], 1);
-            print_r($tokenSplitArray);
-            print_r($index);
             if ($this->isValid($currentSet) == true) {
                 return true;
             }
+//            $this->debug($currentSet);
+            $this->updateIndex($currentSet, $tokenSplitArray[($index - $keyLength)], 1);
+//            $this->debug($currentSet);
+//            exit;
+
+//                print_r($tokenSplitArray);
+//                $this->debug($currentSet);
+//                print_r($index);
+//                exit;
+
+//            }
         }
+
+      //  $this->debug($currentSet);
 
         return false;
     }
@@ -136,7 +169,7 @@ class Encrypt
      */
     private function isValid($arr)
     {
-        $this->debug($arr);
+//        $this->debug($arr);
         foreach ($arr as $ind => $val) {
             if ($val != 0)
                 return false;
@@ -150,6 +183,14 @@ class Encrypt
         foreach ($arr as $ind => $val) {
             if ($val != 0)
                 echo $ind . ' => ' . $val . PHP_EOL;
+        }
+        echo "------" . PHP_EOL;
+    }
+
+    private function print($arr)
+    {
+        foreach ($arr as $ind => $val) {
+            echo $ind . ' => ' . $val . PHP_EOL;
         }
         echo "------" . PHP_EOL;
     }
