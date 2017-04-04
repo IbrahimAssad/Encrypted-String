@@ -22,16 +22,33 @@ class Encrypt
 
     }
 
-    /**
-     * DESC
-     *
-     * @param array $arrayItem
-     * @param       $index
-     * @param int   $value
-     *
-     * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
-     *
-     */
+    /*
+    ibra himsalahAssad
+
+    salah
+
+    a = 2 --1 -0-1 -0
+    s =1 -0
+    h=1 - 0 -1 - 0
+    l =1 -0
+
+
+
+
+
+
+
+
+        /**
+         * DESC
+         *
+         * @param array $arrayItem
+         * @param       $index
+         * @param int   $value
+         *
+         * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
+         *
+         */
     private function updateIndex(array &$arrayItem, $index, int $value)
     {
 //        echo $value .PHP_EOL;
@@ -41,17 +58,12 @@ class Encrypt
 //        } else {
 //            $arrayItem[$index] += $value;
 //        }
-
-        if ($index < 0) return;
-        if ($arrayItem[$index] >= 0) {
+        if (isset($arrayItem[$index])) {
             if ($value > 0) {
                 $arrayItem[$index] += $value;
             } elseif ($value == -1) {
-                if ($arrayItem[$index] > 0) {
-                    $arrayItem[$index] -= abs($value);
-                }
+                $arrayItem[$index] -= abs($value);
             }
-
         }
 
 
@@ -102,22 +114,27 @@ class Encrypt
             return false;
         }
 
-        for ($i = 0; $i < count($charArray); $i++) {
-            $currentSet[$charArray[$i]] = 0;
+        for ($i = 0; $i < $keyLength; $i++) {
+            if (!isset($currentSet[$keySplitArray[$i]])) {
+                $currentSet[$keySplitArray[$i]] = 0;
+            }
+//            $currentSet[$keySplitArray[$i]] = -1;
         }
 //        echo "start";
 //        $this->print($currentSet);
 
         for ($i = 0; $i < $keyLength; $i++) {
-//            echo $keySplitArray[$i].' -- '.$keySplitArray[$i].PHP_EOL;
-            $this->updateIndex($currentSet, $keySplitArray[$i], 1);
-            $this->updateIndex($currentSet, $tokenSplitArray[$i], -1);
+//            echo $keySplitArray[$i] . ' -- ' . $keySplitArray[$i] . PHP_EOL;
+            $this->updateIndex($currentSet, $keySplitArray[$i], -1);
+
+            $this->updateIndex($currentSet, $tokenSplitArray[$i], 1);
 //            $currentSet[$keySplitArray[$i]]   += 1;
 //            $currentSet[$tokenSplitArray[$i]] -= 1;
 
         }
 //                $this->print($currentSet);
-//
+//exit;
+        //
 //        $this->debug($currentSet);
 //        exit;
 //        $this->print($currentSet);
@@ -132,27 +149,32 @@ class Encrypt
 
 //        echo $tokenLength;
         for ($index = $keyLength; $index < $tokenLength; $index++) {
+//            echo $tokenSplitArray[$index] . ' = -1 ,  -- ' . $tokenSplitArray[($index - $keyLength)] . ' = +1' . PHP_EOL;
 //            if($index > $keyLength-1) {
 //            echo $tokenSplitArray[$index];
 //            exit;
-            $this->updateIndex($currentSet, $tokenSplitArray[$index], -1);
+            $this->updateIndex($currentSet, $tokenSplitArray[$index], +1);
             if ($this->isValid($currentSet) == true) {
                 return true;
             }
 //            $this->debug($currentSet);
-            $this->updateIndex($currentSet, $tokenSplitArray[($index - $keyLength)], 1);
+            $this->updateIndex($currentSet, $tokenSplitArray[($index - $keyLength)], -1);
 //            $this->debug($currentSet);
 //            exit;
-
+//            echo "AFTER";
 //                print_r($tokenSplitArray);
-//                $this->debug($currentSet);
+//            $this->debug($currentSet);
 //                print_r($index);
 //                exit;
 
 //            }
         }
 
-      //  $this->debug($currentSet);
+        if ($this->isValid($currentSet) == true) {
+            return true;
+        }
+
+//        $this->debug($currentSet);
 
         return false;
     }
