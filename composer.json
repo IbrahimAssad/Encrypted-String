@@ -1,5 +1,5 @@
 {
-  "name": "IbrahimAssad/Encrypted-String",
+  "name": "ibrahimassad/encrypted-string",
   "description": "Encryption and validating data  ",
   "license": "MIT",
   "require": {
@@ -8,7 +8,7 @@
   },
   "autoload": {
     "psr-4": {
-      "IbrahimAssad\\Encrypted-String\\": "src/"
+      "ibrahimassad\\encrypted-string\\": "src/"
     }
   },
   "authors": [
