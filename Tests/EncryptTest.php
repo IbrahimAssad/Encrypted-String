@@ -26,49 +26,45 @@ class EncryptTest extends TestCase
 
         $test = new Encrypt("ibrahim");
         $this->assertTrue($test->doEncrypt("ibrahim"));
-        $this->assertTrue($test->doEncrypt("mIbrahid"));
-        $this->assertTrue($test->doEncrypt("irahimb"));
+        $this->assertFalse($test->doEncrypt("asasdasdasdasdadaadasdamIbrahid"));
+        $this->assertTrue($test->doEncrypt("kajsdakshdasjkdhaskdhaskdirahimb"));
         $this->assertTrue($test->doEncrypt("ibrahimasda"));
         $this->assertTrue($test->doEncrypt("asdasibrahim"));
         $this->assertTrue($test->doEncrypt("asaaaibrahimdddddddsadasdas"));
 
         $test = new Encrypt("fcd");
         $this->assertFalse($test->doEncrypt("abcdef"));
-        $this->assertFalse($test->doEncrypt("abcdef"));
+        $this->assertTrue($test->doEncrypt("dffcsdsddddsadaddcfasaasdadas"));
 
 
     }
 
-
+    /**
+     * Test 100 tests stored in files
+     *
+     * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
+     *
+     */
     public function testReadFromFile()
     {
-
 
         $data            = file(__DIR__ . "/data/data.in", FILE_IGNORE_NEW_LINES);
         $expectedResults = file(__DIR__ . "/data/data.out", FILE_IGNORE_NEW_LINES);
 
         for ($itemIndex = 0; $itemIndex < count($data); $itemIndex++) {
             $lineToken = $data[$itemIndex++];
-            $lineKey  = $data[$itemIndex];
-            $test     = new Encrypt($lineKey);
+            $lineKey   = $data[$itemIndex];
+            $test      = new Encrypt($lineKey);
 
             $expected = $expectedResults[$itemIndex / 2];
 
-           // echo $lineKey . " " . $lineToken . " = " . $expected.PHP_EOL;
-
             if ($expected == "YES") {
-                if(!$test->doEncrypt($lineToken)){
-                    echo "MUST YES".PHP_EOL;
-                }
-//                $this->assertTrue($test->doEncrypt($lineToken));
+                $this->assertTrue($test->doEncrypt($lineToken));
             } else {
-//                $this->assertFalse($test->doEncrypt($lineToken));
-                if($test->doEncrypt($lineToken)){
-                    echo "MUST NO".PHP_EOL;
-                    file_put_contents("response.txt",$lineKey . " " . $lineToken . " = " . $expected.PHP_EOL);
-                    exit;
-                }
+                $this->assertFalse($test->doEncrypt($lineToken));
             }
         }
     }
+
+
 }

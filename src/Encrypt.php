@@ -9,6 +9,7 @@ namespace IbrahimAssad\Encrypted;
  */
 class Encrypt
 {
+    /** @var string $key */
     private $key = "";
 
     /**
@@ -19,45 +20,20 @@ class Encrypt
     function __construct(string $key)
     {
         $this->key = $key;
-
     }
 
-    /*
-    ibra himsalahAssad
-
-    salah
-
-    a = 2 --1 -0-1 -0
-    s =1 -0
-    h=1 - 0 -1 - 0
-    l =1 -0
-
-
-
-
-
-
-
-
-        /**
-         * DESC
-         *
-         * @param array $arrayItem
-         * @param       $index
-         * @param int   $value
-         *
-         * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
-         *
-         */
+    /**
+     * DESC
+     *
+     * @param array $arrayItem
+     * @param       $index
+     * @param int   $value
+     *
+     * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
+     *
+     */
     private function updateIndex(array &$arrayItem, $index, int $value)
     {
-//        echo $value .PHP_EOL;
-//        if ($index < 0) return;
-//        if ($value > 0) {
-//            $arrayItem[$index] += $value;
-//        } else {
-//            $arrayItem[$index] += $value;
-//        }
         if (isset($arrayItem[$index])) {
             if ($value > 0) {
                 $arrayItem[$index] += $value;
@@ -65,7 +41,6 @@ class Encrypt
                 $arrayItem[$index] -= abs($value);
             }
         }
-
 
     }
 
@@ -99,7 +74,6 @@ class Encrypt
      */
     public function doEncrypt(string $token): bool
     {
-//        echo $token . '  -   ' . $this->key . PHP_EOL;
         $charArray = $this->getCharArrayAtoz();
 
         $currentSet = [];
@@ -118,63 +92,30 @@ class Encrypt
             if (!isset($currentSet[$keySplitArray[$i]])) {
                 $currentSet[$keySplitArray[$i]] = 0;
             }
-//            $currentSet[$keySplitArray[$i]] = -1;
         }
-//        echo "start";
-//        $this->print($currentSet);
 
         for ($i = 0; $i < $keyLength; $i++) {
-//            echo $keySplitArray[$i] . ' -- ' . $keySplitArray[$i] . PHP_EOL;
             $this->updateIndex($currentSet, $keySplitArray[$i], -1);
-
             $this->updateIndex($currentSet, $tokenSplitArray[$i], 1);
-//            $currentSet[$keySplitArray[$i]]   += 1;
-//            $currentSet[$tokenSplitArray[$i]] -= 1;
-
         }
-//                $this->print($currentSet);
-//exit;
-        //
-//        $this->debug($currentSet);
-//        exit;
-//        $this->print($currentSet);
-        //  exit;
 
         if ($this->isValid($currentSet) == true) {
             return true;
         }
 
-//        $this->debug($currentSet);
-//        exit;
 
-//        echo $tokenLength;
         for ($index = $keyLength; $index < $tokenLength; $index++) {
-//            echo $tokenSplitArray[$index] . ' = -1 ,  -- ' . $tokenSplitArray[($index - $keyLength)] . ' = +1' . PHP_EOL;
-//            if($index > $keyLength-1) {
-//            echo $tokenSplitArray[$index];
-//            exit;
+
             $this->updateIndex($currentSet, $tokenSplitArray[$index], +1);
+            $this->updateIndex($currentSet, $tokenSplitArray[(($index - $keyLength))], -1);
             if ($this->isValid($currentSet) == true) {
                 return true;
             }
-//            $this->debug($currentSet);
-            $this->updateIndex($currentSet, $tokenSplitArray[($index - $keyLength)], -1);
-//            $this->debug($currentSet);
-//            exit;
-//            echo "AFTER";
-//                print_r($tokenSplitArray);
-//            $this->debug($currentSet);
-//                print_r($index);
-//                exit;
-
-//            }
         }
 
         if ($this->isValid($currentSet) == true) {
             return true;
         }
-
-//        $this->debug($currentSet);
 
         return false;
     }
@@ -191,7 +132,6 @@ class Encrypt
      */
     private function isValid($arr)
     {
-//        $this->debug($arr);
         foreach ($arr as $ind => $val) {
             if ($val != 0)
                 return false;
@@ -200,6 +140,14 @@ class Encrypt
         return true;
     }
 
+    /**
+     * debug array with values != 0
+     *
+     * @param $arr
+     *
+     * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
+     *
+     */
     private function debug($arr)
     {
         foreach ($arr as $ind => $val) {
@@ -209,6 +157,14 @@ class Encrypt
         echo "------" . PHP_EOL;
     }
 
+    /**
+     * print all array data
+     *
+     * @param $arr
+     *
+     * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
+     *
+     */
     private function print($arr)
     {
         foreach ($arr as $ind => $val) {
