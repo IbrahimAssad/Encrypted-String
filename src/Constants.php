@@ -1,11 +1,11 @@
 <?php
 
-namespace IbrahimAssad\Encrypted;
+namespace IbrahimAssad\EncryptedString;
 
 /**
  * Class Constants
  *
- * @package IbrahimAssad\Encrypt
+ * @package IbrahimAssad\EncryptedString
  */
 class Constants
 {

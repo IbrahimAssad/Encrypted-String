@@ -1,19 +1,19 @@
 <?php
 
-namespace IbrahimAssad\Encrypted;
+namespace IbrahimAssad\EncryptedString;
 
 /**
- * Class Encrypt
+ * Class Decrypt
  *
- * @package IbrahimAssad\Encrypted
+ * @package IbrahimAssad\EncryptedString
  */
-class Encrypt
+class Decrypt
 {
     /** @var string $key */
     private $key = "";
 
     /**
-     * Encrypt constructor.
+     * Decrypt constructor.
      *
      * @param string $key
      */
