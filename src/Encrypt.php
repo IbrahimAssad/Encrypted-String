@@ -32,7 +32,7 @@ class Encrypt
      * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
      *
      */
-    private function updateIndex(array &$arrayItem, $index, int $value)
+    private function updateIndex(array &$arrayItem, $index, int $value):void
     {
         if (isset($arrayItem[$index])) {
             if ($value > 0) {
@@ -130,7 +130,7 @@ class Encrypt
      * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
      *
      */
-    private function isValid($arr)
+    private function isValid($arr):bool
     {
         foreach ($arr as $ind => $val) {
             if ($val != 0)
