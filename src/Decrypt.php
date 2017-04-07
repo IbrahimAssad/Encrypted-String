@@ -72,7 +72,7 @@ class Decrypt
      * @author Ibrahim Assad <Ibrahim.assad@tajawal.com>
      *
      */
-    public function doEncrypt(string $token): bool
+    public function doDecrypt(string $token): bool
     {
         $charArray = $this->getCharArrayAtoz();
 
